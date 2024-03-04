@@ -25,6 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Stories"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.goNamed("settings");
+            },
+            icon: const Icon(Ionicons.settings),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

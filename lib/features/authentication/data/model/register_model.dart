@@ -10,8 +10,8 @@ class RegisterModel {
   });
 
   Map<String, dynamic> toJson() => {
-        "email": email,
         "name": name,
+        "email": email,
         "password": password,
       };
 }

@@ -46,6 +46,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             ),
           );
         }
+
+        if (state is RegisterSuccess) {
+          setState(() {
+            isLogin = true;
+          });
+        }
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -127,7 +133,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                               hintStyle: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
-                              prefixIcon: const Icon(Ionicons.mail),
+                              prefixIcon: const Icon(Ionicons.person),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -137,7 +143,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                   .primaryContainer,
                             ),
                             validator: (value) {
-                              if (value == null) {
+                              if (value == null || value.isEmpty) {
                                 return "This field cannot be empty!";
                               }
                               return null;
@@ -173,7 +179,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           validator: (value) {
                             if (value == null) {
                               return "This field cannot be empty!";
-                            } else if (!isLogin && value.length != 8) {
+                            } else if (value.length == 8 && !isLogin) {
                               return "Password length minimum 8 characters!";
                             }
                             return null;
@@ -195,7 +201,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                             email: email, password: password),
                                       ),
                                     );
-                              } else {
+                              } else if (!isLogin) {
                                 final String email =
                                     emailController.text.trim();
                                 final String password =

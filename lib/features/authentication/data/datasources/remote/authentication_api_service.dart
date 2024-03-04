@@ -25,7 +25,10 @@ class AuthenticationApiService {
 
   Future<RegisterResponseModel> userRegister(
       RegisterModel registerModel) async {
-    final response = await http.post(Uri.parse("$baseUrl/register"));
+    final response = await http.post(
+      Uri.parse("$baseUrl/register"),
+      body: registerModel.toJson(),
+    );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);
