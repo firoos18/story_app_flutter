@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:story_app_flutter/features/stories/domain/entity/story_entity.dart';
+import 'package:story_app_flutter/core/common/story_entity.dart';
 
 class StoriesResponseEntity extends Equatable {
   final bool error;

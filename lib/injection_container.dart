@@ -1,5 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app_flutter/features/add_story/data/datasource/add_story_remote_datasource.dart';
+import 'package:story_app_flutter/features/add_story/data/repository/add_story_repository_impl.dart';
+import 'package:story_app_flutter/features/add_story/domain/repository/add_story_repository.dart';
+import 'package:story_app_flutter/features/add_story/domain/usecases/add_story_usecase.dart';
+import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
+import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/local/authentication_local_datasource.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/remote/authentication_api_service.dart';
 import 'package:story_app_flutter/features/authentication/data/repository/authentication_repository_impl.dart';
@@ -35,6 +41,8 @@ Future<void> initializeDependencies() async {
       StoryRemoteDatasource(injector()));
   injector.registerSingleton<StoryDetailsRemoteDatasource>(
       StoryDetailsRemoteDatasource(injector()));
+  injector.registerSingleton<AddStoryRemoteDatasource>(
+      AddStoryRemoteDatasource(injector()));
 
   // Repositories
   injector.registerSingleton<AuthenticationRepository>(
@@ -42,6 +50,8 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<StoryRepository>(StoryRepositoryImpl(injector()));
   injector.registerSingleton<StoryDetailsRepository>(
       StoryDetailsRepositoryImpl(injector()));
+  injector.registerSingleton<AddStoryRepository>(
+      AddStoryRepositoryImpl(injector()));
 
   // Usecases
   injector.registerSingleton<UserLoginUsecase>(UserLoginUsecase(injector()));
@@ -52,6 +62,7 @@ Future<void> initializeDependencies() async {
   injector.registerSingleton<GetStoriesUsecase>(GetStoriesUsecase(injector()));
   injector.registerSingleton<GetStoryDetailsUsecase>(
       GetStoryDetailsUsecase(injector()));
+  injector.registerSingleton<AddStoryUsecase>(AddStoryUsecase(injector()));
 
   // BLoCs
   injector.registerFactory<AuthenticationBloc>(
@@ -59,4 +70,6 @@ Future<void> initializeDependencies() async {
   injector.registerFactory<StoryBloc>(() => StoryBloc(injector()));
   injector
       .registerFactory<StoryDetailsBloc>(() => StoryDetailsBloc(injector()));
+  injector.registerFactory<PickImageBloc>(() => PickImageBloc());
+  injector.registerFactory<AddStoryBloc>(() => AddStoryBloc(injector()));
 }

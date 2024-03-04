@@ -16,7 +16,6 @@ class StoryRepositoryImpl implements StoryRepository {
   Future<Either<Failures, StoriesResponseModel>> getStories() async {
     try {
       final data = await _storyRemoteDatasource.getStories();
-      print(data);
       return Right(data);
     } on RequestErrorException catch (e) {
       return Left(RequestFailure(e.message));

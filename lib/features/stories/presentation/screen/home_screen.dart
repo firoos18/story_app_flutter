@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:story_app_flutter/features/stories/presentation/bloc/story_bloc.dart';
 import 'package:story_app_flutter/features/stories/presentation/widgets/story_card.dart';
@@ -26,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("Stories"),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          context.goNamed("add");
+        },
         label: const Row(
           children: [
             Icon(Ionicons.add),

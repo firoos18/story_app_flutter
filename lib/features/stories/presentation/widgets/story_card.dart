@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:story_app_flutter/features/stories/domain/entity/story_entity.dart';
+import 'package:story_app_flutter/core/common/story_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class StoryCard extends StatelessWidget {
