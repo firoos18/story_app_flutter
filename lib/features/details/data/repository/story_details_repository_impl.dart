@@ -17,7 +17,6 @@ class StoryDetailsRepositoryImpl implements StoryDetailsRepository {
       String id) async {
     try {
       final data = await storyDetailsRemoteDatasource.getStoryDetails(id);
-      print(data);
       return Right(data);
     } on RequestErrorException catch (e) {
       return Left(RequestFailure(e.message));

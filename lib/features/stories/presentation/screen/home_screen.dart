@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/stories/presentation/bloc/story_bloc.dart';
 import 'package:story_app_flutter/features/stories/presentation/widgets/story_card.dart';
 
@@ -38,12 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           context.goNamed("add");
         },
-        label: const Row(
+        label: Row(
           children: [
-            Icon(Ionicons.add),
+            const Icon(Ionicons.add),
             Text(
-              "Add a Story",
-              style: TextStyle(
+              AppLocalizations.of(context)!.addStoryButton,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
@@ -69,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           if (state is StoriesLoaded) {
             return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.only(right: 16, left: 16, bottom: 8),
               itemCount: state.storiesList?.length,
               itemBuilder: (context, index) => StoryCard(
                 story: state.storiesList![index],

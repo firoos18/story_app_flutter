@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:story_app_flutter/core/common/common.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -9,7 +10,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: Text(AppLocalizations.of(context)!.settingAppBarTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -22,7 +23,8 @@ class SettingsScreen extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: const Text("Logging Out?"),
+                      title:
+                          Text(AppLocalizations.of(context)!.loggingOutAlert),
                       actionsAlignment: MainAxisAlignment.center,
                       actions: [
                         TextButton(
@@ -30,9 +32,9 @@ class SettingsScreen extends StatelessWidget {
                             userLogout();
                             context.goNamed("authentication");
                           },
-                          child: const Text(
-                            "Log Out",
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.logOutButton,
+                            style: const TextStyle(
                               color: Colors.redAccent,
                               fontWeight: FontWeight.bold,
                             ),
@@ -42,9 +44,9 @@ class SettingsScreen extends StatelessWidget {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(
+                          child: Text(
+                            AppLocalizations.of(context)!.cancelLogOut,
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
@@ -61,9 +63,9 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 backgroundColor: Colors.redAccent,
               ),
-              child: const Text(
-                "Log Out",
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context)!.logOutButton,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontSize: 16,

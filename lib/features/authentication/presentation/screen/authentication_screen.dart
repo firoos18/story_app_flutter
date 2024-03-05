@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/authentication/data/model/login_model.dart';
 import 'package:story_app_flutter/features/authentication/data/model/register_model.dart';
 import 'package:story_app_flutter/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -79,7 +80,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          isLogin ? "Login" : "Register",
+                          isLogin
+                              ? AppLocalizations.of(context)!.loginTitle
+                              : AppLocalizations.of(context)!.registerTitle,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary,
@@ -88,8 +91,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         ),
                         Text(
                           isLogin
-                              ? "Enter your credentials to access the wonderful stories inside!"
-                              : "Create an account to access the wonderful stories inside!",
+                              ? AppLocalizations.of(context)!.loginDescription
+                              : AppLocalizations.of(context)!
+                                  .registerDescription,
                           style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
@@ -117,9 +121,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           ),
                           validator: (value) {
                             if (value == null) {
-                              return "This field cannot be empty!";
+                              return AppLocalizations.of(context)!
+                                  .emptyFieldAlert;
                             } else if (!value.contains("@")) {
-                              return "Please enter a valid email!";
+                              return AppLocalizations.of(context)!
+                                  .validEmailAlert;
                             }
                             return null;
                           },
@@ -144,7 +150,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "This field cannot be empty!";
+                                return AppLocalizations.of(context)!
+                                    .emptyFieldAlert;
                               }
                               return null;
                             },
@@ -178,9 +185,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           ),
                           validator: (value) {
                             if (value == null) {
-                              return "This field cannot be empty!";
+                              return AppLocalizations.of(context)!
+                                  .emptyFieldAlert;
                             } else if (value.length == 8 && !isLogin) {
-                              return "Password length minimum 8 characters!";
+                              return AppLocalizations.of(context)!
+                                  .passwordLengthAlert;
                             }
                             return null;
                           },
@@ -237,7 +246,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                               }
 
                               return Text(
-                                isLogin ? "LOGIN" : "REGISTER",
+                                isLogin
+                                    ? AppLocalizations.of(context)!.loginButton
+                                    : AppLocalizations.of(context)!
+                                        .registerButton,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
                               );
@@ -251,8 +263,10 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                           children: [
                             Text(
                               isLogin
-                                  ? "Don't have an account? "
-                                  : "Already have an account? ",
+                                  ? AppLocalizations.of(context)!
+                                      .registerInvitation
+                                  : AppLocalizations.of(context)!
+                                      .loginInvitation,
                               style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 color: Theme.of(context).colorScheme.primary,
@@ -269,7 +283,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                                 passwordController.clear();
                               },
                               child: Text(
-                                isLogin ? "Register" : "Login",
+                                isLogin
+                                    ? AppLocalizations.of(context)!
+                                        .registerTextButton
+                                    : AppLocalizations.of(context)!
+                                        .loginTextButton,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).colorScheme.primary,

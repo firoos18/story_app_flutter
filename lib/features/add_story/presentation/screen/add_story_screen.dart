@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/add_story/domain/entity/add_story_entity.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
@@ -30,7 +31,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Post Story"),
+        title: Text(AppLocalizations.of(context)!.addStoryAppBarTitle),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -74,7 +75,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       context.read<PickImageBloc>().add(CameraButtonTapped());
                     },
                     icon: const Icon(Ionicons.camera),
-                    label: const Text("Take a Photo"),
+                    label: Text(AppLocalizations.of(context)!.cameraPhoto),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -86,7 +87,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                       context.read<PickImageBloc>().add(GalleryButtonTapped());
                     },
                     icon: const Icon(Ionicons.images),
-                    label: const Text("Take from Gallery"),
+                    label: Text(AppLocalizations.of(context)!.galleryPhoto),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -105,7 +106,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   expands: true,
                   controller: descriptionController,
                   decoration: InputDecoration(
-                    hintText: "Description",
+                    hintText: AppLocalizations.of(context)!.description,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -138,8 +139,9 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     if (state is AddStorySuccess) {
                       ScaffoldMessenger.of(context).hideCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Story Posted"),
+                        SnackBar(
+                          content: Text(
+                              AppLocalizations.of(context)!.storyPostedAlert),
                         ),
                       );
                       context.read<StoryBloc>().add(GetStories());
@@ -161,7 +163,7 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     }
 
                     return Text(
-                      "POST",
+                      AppLocalizations.of(context)!.postButton,
                       style: TextStyle(
                         fontSize: 18,
                         color: Theme.of(context).colorScheme.onPrimary,

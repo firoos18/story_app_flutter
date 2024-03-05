@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -31,6 +32,8 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         routerConfig: router,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: lightColorScheme,
