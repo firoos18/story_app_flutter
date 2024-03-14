@@ -13,9 +13,17 @@ class StoryRepositoryImpl implements StoryRepository {
   const StoryRepositoryImpl(this._storyRemoteDatasource);
 
   @override
-  Future<Either<Failures, StoriesResponseModel>> getStories() async {
+  Future<Either<Failures, StoriesResponseModel>> getStories({
+    int? page,
+    int? size,
+    int? location,
+  }) async {
     try {
-      final data = await _storyRemoteDatasource.getStories();
+      final data = await _storyRemoteDatasource.getStories(
+        page: page,
+        size: size,
+        location: location,
+      );
       return Right(data);
     } on RequestErrorException catch (e) {
       return Left(RequestFailure(e.message));

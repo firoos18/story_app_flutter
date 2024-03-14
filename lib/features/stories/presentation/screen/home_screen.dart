@@ -15,14 +15,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
-    context.read<StoryBloc>().add(GetStories());
     super.initState();
+    context.read<StoryBloc>().add(GetStories());
+  }
+
+  void onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+
+    if (currentScroll >= maxScroll) {
+      context.read<StoryBloc>().add(GetStories());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(onScroll);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Stories"),
@@ -52,34 +65,40 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: BlocConsumer<StoryBloc, StoryState>(
-        listener: (context, state) {
-          if (state is StoryError) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message!)),
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state is StoryLoading) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
-          }
+      body: Container(
+        padding: const EdgeInsets.only(right: 16, left: 16, bottom: 8),
+        child: BlocConsumer<StoryBloc, StoryState>(
+          listener: (context, state) {
+            if (state is StoryError) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message!)),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is StoryLoading) {
+              return const Center(
+                child: CupertinoActivityIndicator(),
+              );
+            }
 
-          if (state is StoriesLoaded) {
-            return ListView.builder(
-              padding: const EdgeInsets.only(right: 16, left: 16, bottom: 8),
-              itemCount: state.storiesList?.length,
-              itemBuilder: (context, index) => StoryCard(
-                story: state.storiesList![index],
-              ),
-            );
-          }
+            if (state is StoriesLoaded) {
+              return ListView.builder(
+                controller: _scrollController,
+                itemCount: state.noMoreData!
+                    ? state.storiesList!.length
+                    : state.storiesList!.length + 1,
+                itemBuilder: (context, index) =>
+                    (index < state.storiesList!.length)
+                        ? StoryCard(story: state.storiesList![index])
+                        : const Center(child: CupertinoActivityIndicator()),
+              );
+            }
 
-          return const SizedBox();
-        },
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

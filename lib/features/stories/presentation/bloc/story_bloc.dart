@@ -11,18 +11,33 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
 
   StoryBloc(
     this._getStoriesUsecase,
-  ) : super(StoryInitial()) {
+  ) : super(StoryLoading()) {
     on<GetStories>(onGetStories);
   }
 
+  final List<StoryEntity> _stories = [];
+  int _page = 1;
+  final int _pageSize = 10;
+
   void onGetStories(StoryEvent event, Emitter<StoryState> emit) async {
-    emit(StoryLoading());
-
-    final storiesData = await _getStoriesUsecase.storyRepository.getStories();
-
-    storiesData.fold(
-      (left) => emit(StoryError(message: left.message)),
-      (right) => emit(StoriesLoaded(storiesList: right.listStory)),
+    final storiesData = await _getStoriesUsecase.storyRepository.getStories(
+      page: _page,
+      size: _pageSize,
+      location: 1,
     );
+
+    if (storiesData.isRight && storiesData.right.listStory.isNotEmpty) {
+      final stories = storiesData.right.listStory;
+      final noMoreData = stories.length < _pageSize;
+
+      _stories.addAll(stories);
+      _page++;
+
+      emit(StoriesLoaded(storiesList: _stories, noMoreData: noMoreData));
+    }
+
+    if (storiesData.isLeft) {
+      emit(StoryError(message: storiesData.left.message));
+    }
   }
 }

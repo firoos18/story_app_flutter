@@ -5,13 +5,22 @@ import 'package:story_app_flutter/features/stories/domain/entity/stories_respons
 import 'package:story_app_flutter/features/stories/domain/repository/story_repository.dart';
 
 class GetStoriesUsecase
-    implements UseCase<Either<Failures, StoriesResponseEntity>, Null> {
+    implements UseCase<Either<Failures, StoriesResponseEntity>, int?> {
   final StoryRepository storyRepository;
 
   const GetStoriesUsecase(this.storyRepository);
 
   @override
-  Future<Either<Failures, StoriesResponseEntity>> call({Null params}) async {
-    return await storyRepository.getStories();
+  Future<Either<Failures, StoriesResponseEntity>> call({
+    int? params,
+    int? page,
+    int? location,
+    int? size,
+  }) async {
+    return await storyRepository.getStories(
+      page: page!,
+      size: size!,
+      location: location!,
+    );
   }
 }

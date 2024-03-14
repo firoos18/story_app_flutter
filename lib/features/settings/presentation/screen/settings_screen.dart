@@ -42,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            context.pop();
                           },
                           child: Text(
                             AppLocalizations.of(context)!.cancelLogOut,
