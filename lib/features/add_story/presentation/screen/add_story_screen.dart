@@ -3,12 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:location/location.dart';
 import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/add_story/domain/entity/add_story_entity.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/stories/presentation/bloc/story_bloc.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({super.key});
@@ -20,6 +23,8 @@ class AddStoryScreen extends StatefulWidget {
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController descriptionController = TextEditingController();
   File? photo;
+  LatLng? myLocation;
+  String? myStreet;
 
   @override
   void dispose() {
@@ -115,6 +120,23 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                   autofocus: false,
                 ),
               ),
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  getCurrentLocation();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Center(
+                    child: Text(myStreet != null ? myStreet! : "Add Location"),
+                  ),
+                ),
+              ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
@@ -179,4 +201,49 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       ),
     );
   }
+
+  void getCurrentLocation() async {
+    final Location location = Location();
+    late bool serviceEnabled;
+    late PermissionStatus permissionGranted;
+    late LocationData locationData;
+
+    /// todo-02-07: check the location service
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        print("Location services is not available");
+        return;
+      }
+    }
+
+    /// todo-02-08: check the location permission
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        print("Location permission is denied");
+        return;
+      }
+    }
+
+    locationData = await location.getLocation();
+    final latLng = LatLng(locationData.latitude!, locationData.longitude!);
+    final addressInfo =
+        await geo.placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+
+    final place = addressInfo[0];
+    final street = place.administrativeArea;
+
+    print(latLng);
+    print(street);
+
+    setState(() {
+      myLocation = latLng;
+      myStreet = street;
+    });
+  }
+
+  void getLocationFromMap() {}
 }
