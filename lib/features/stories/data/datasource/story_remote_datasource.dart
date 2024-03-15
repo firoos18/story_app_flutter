@@ -12,14 +12,12 @@ class StoryRemoteDatasource {
   Future<StoriesResponseModel> getStories({
     int? page,
     int? size,
-    int? location,
   }) async {
     final token = _prefs.getString("token");
 
     final Map<String, String> queryParams = {
       "page": page.toString(),
       "size": size.toString(),
-      "location": location.toString(),
     };
 
     final Uri uri = Uri.https(

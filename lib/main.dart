@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
+import 'package:story_app_flutter/features/add_story/presentation/bloc/location_picker/location_picker_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:story_app_flutter/features/details/presentation/bloc/story_details_bloc.dart';
@@ -29,6 +30,7 @@ class MainApp extends StatelessWidget {
         BlocProvider<StoryDetailsBloc>(create: (_) => injector()),
         BlocProvider<PickImageBloc>(create: (_) => injector()),
         BlocProvider<AddStoryBloc>(create: (_) => injector()),
+        BlocProvider<LocationPickerBloc>(create: (_) => injector()),
       ],
       child: MaterialApp.router(
         routerConfig: router,

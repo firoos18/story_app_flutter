@@ -6,6 +6,5 @@ abstract class StoryRepository {
   Future<Either<Failures, StoriesResponseEntity>> getStories({
     final int page,
     final int size,
-    final int location,
   });
 }

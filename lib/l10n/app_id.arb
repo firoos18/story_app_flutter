@@ -22,5 +22,11 @@
     "description" : "Deskripsi",
     "postButton" : "KIRIM",
     "addStoryAppBarTitle" : "Kirim Cerita",
-    "storyPostedAlert" : "Cerita Terkirim"
+    "storyPostedAlert" : "Cerita Terkirim",
+    "addLocationDialogTitle" : "Tambahkan Lokasi",
+    "currentLocationTextButton" : "Lokasi Saat Ini",
+    "chooseFromMapTextButton" : "Pilih dari Peta",
+    "addLocationButton" : "Tambahkan Lokasi",
+    "mapPickerAppbarTitle" : "Pilih Lokasi",
+    "doneAction" : "Selesai"
 }

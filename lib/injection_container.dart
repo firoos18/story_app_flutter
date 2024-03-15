@@ -5,6 +5,7 @@ import 'package:story_app_flutter/features/add_story/data/repository/add_story_r
 import 'package:story_app_flutter/features/add_story/domain/repository/add_story_repository.dart';
 import 'package:story_app_flutter/features/add_story/domain/usecases/add_story_usecase.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
+import 'package:story_app_flutter/features/add_story/presentation/bloc/location_picker/location_picker_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/local/authentication_local_datasource.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/remote/authentication_api_service.dart';
@@ -72,4 +73,5 @@ Future<void> initializeDependencies() async {
       .registerFactory<StoryDetailsBloc>(() => StoryDetailsBloc(injector()));
   injector.registerFactory<PickImageBloc>(() => PickImageBloc());
   injector.registerFactory<AddStoryBloc>(() => AddStoryBloc(injector()));
+  injector.registerFactory<LocationPickerBloc>(() => LocationPickerBloc());
 }

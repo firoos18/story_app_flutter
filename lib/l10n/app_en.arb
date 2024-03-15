@@ -22,5 +22,11 @@
     "description" : "Description",
     "postButton" : "POST",
     "addStoryAppBarTitle" : "Post Story",
-    "storyPostedAlert" : "Story Posted"
+    "storyPostedAlert" : "Story Posted",
+    "addLocationDialogTitle" : "Add Location",
+    "currentLocationTextButton" : "Current Location",
+    "chooseFromMapTextButton" : "Choose from Map",
+    "addLocationButton" : "Add Location",
+    "mapPickerAppbarTitle" : "Pick Location",
+    "doneAction" : "Done"
 }

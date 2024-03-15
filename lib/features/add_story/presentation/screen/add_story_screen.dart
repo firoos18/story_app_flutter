@@ -5,13 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:location/location.dart';
 import 'package:story_app_flutter/core/common/common.dart';
 import 'package:story_app_flutter/features/add_story/domain/entity/add_story_entity.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/add_story/add_story_bloc.dart';
+import 'package:story_app_flutter/features/add_story/presentation/bloc/location_picker/location_picker_bloc.dart';
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/stories/presentation/bloc/story_bloc.dart';
-import 'package:geocoding/geocoding.dart' as geo;
 
 class AddStoryScreen extends StatefulWidget {
   const AddStoryScreen({super.key});
@@ -23,8 +22,14 @@ class AddStoryScreen extends StatefulWidget {
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController descriptionController = TextEditingController();
   File? photo;
-  LatLng? myLocation;
+  late LatLng? location;
   String? myStreet;
+
+  @override
+  void initState() {
+    context.read<LocationPickerBloc>().add(OnScreenOpened());
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -123,7 +128,54 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  getCurrentLocation();
+                  showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .addLocationDialogTitle,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<LocationPickerBloc>()
+                                        .add(PickCurrentLocation());
+                                    context.pop();
+                                  },
+                                  child: Text(AppLocalizations.of(context)!
+                                      .currentLocationTextButton),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.pop();
+                                    context.goNamed('map picker');
+                                  },
+                                  child: Text(AppLocalizations.of(context)!
+                                      .chooseFromMapTextButton),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   width: double.infinity,
@@ -133,7 +185,34 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
-                    child: Text(myStreet != null ? myStreet! : "Add Location"),
+                    child: BlocBuilder<LocationPickerBloc, LocationPickerState>(
+                      builder: (context, state) {
+                        if (state is LocationPickerLoaded) {
+                          location = state.coordinates;
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Ionicons.pin,
+                                size: 18,
+                                color: Colors.redAccent,
+                              ),
+                              Text(state.address!),
+                            ],
+                          );
+                        }
+                        if (state is LocationPickerError) {
+                          return Text(state.message!);
+                        }
+                        if (state is LocationPickerLoading) {
+                          return const CupertinoActivityIndicator();
+                        }
+                        return Text(
+                          AppLocalizations.of(context)!.addLocationButton,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -142,12 +221,25 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                 onPressed: () {
                   final String description = descriptionController.text.trim();
 
-                  final storyData =
-                      AddStoryEntity(description, photo!, null, null);
+                  if (location != null) {
+                    final storyData = AddStoryEntity(
+                      description,
+                      photo!,
+                      location!.latitude.toDouble(),
+                      location!.longitude.toDouble(),
+                    );
 
-                  context
-                      .read<AddStoryBloc>()
-                      .add(PostStoryButtonTapped(addStoryEntity: storyData));
+                    context
+                        .read<AddStoryBloc>()
+                        .add(PostStoryButtonTapped(addStoryEntity: storyData));
+                  } else {
+                    final storyData =
+                        AddStoryEntity(description, photo!, null, null);
+
+                    context
+                        .read<AddStoryBloc>()
+                        .add(PostStoryButtonTapped(addStoryEntity: storyData));
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -201,49 +293,4 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
       ),
     );
   }
-
-  void getCurrentLocation() async {
-    final Location location = Location();
-    late bool serviceEnabled;
-    late PermissionStatus permissionGranted;
-    late LocationData locationData;
-
-    /// todo-02-07: check the location service
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        print("Location services is not available");
-        return;
-      }
-    }
-
-    /// todo-02-08: check the location permission
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        print("Location permission is denied");
-        return;
-      }
-    }
-
-    locationData = await location.getLocation();
-    final latLng = LatLng(locationData.latitude!, locationData.longitude!);
-    final addressInfo =
-        await geo.placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-
-    final place = addressInfo[0];
-    final street = place.administrativeArea;
-
-    print(latLng);
-    print(street);
-
-    setState(() {
-      myLocation = latLng;
-      myStreet = street;
-    });
-  }
-
-  void getLocationFromMap() {}
 }

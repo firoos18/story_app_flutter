@@ -23,7 +23,6 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     final storiesData = await _getStoriesUsecase.storyRepository.getStories(
       page: _page,
       size: _pageSize,
-      location: 1,
     );
 
     if (storiesData.isRight && storiesData.right.listStory.isNotEmpty) {

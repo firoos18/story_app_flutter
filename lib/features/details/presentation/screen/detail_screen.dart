@@ -101,7 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         Text(
                           state.story!.description,
                           style: const TextStyle(
@@ -110,25 +110,27 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                           textAlign: TextAlign.justify,
                         ),
-                        if (state.story!.lat != null &&
-                            state.story!.lon != null)
-                          const SizedBox(height: 16),
-                        if (state.story!.lat != null &&
-                            state.story!.lon != null)
-                          SizedBox(
-                            width: double.infinity,
-                            height: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(24),
-                              child: GoogleMap(
-                                initialCameraPosition:
-                                    CameraPosition(target: latLng!, zoom: 14),
-                                markers: markers,
-                                zoomControlsEnabled: false,
-                                zoomGesturesEnabled: false,
-                              ),
-                            ),
-                          )
+                        const SizedBox(height: 24),
+                        SizedBox(
+                          width: double.infinity,
+                          height:
+                              state.story!.lat != 0.0 && state.story!.lon != 0.0
+                                  ? 200
+                                  : 0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(24),
+                            child: state.story!.lat != 0.0 &&
+                                    state.story!.lon != 0.0
+                                ? GoogleMap(
+                                    initialCameraPosition: CameraPosition(
+                                        target: latLng!, zoom: 16),
+                                    markers: markers,
+                                    zoomControlsEnabled: false,
+                                    zoomGesturesEnabled: false,
+                                  )
+                                : const SizedBox(),
+                          ),
+                        )
                       ],
                     )
                   ],

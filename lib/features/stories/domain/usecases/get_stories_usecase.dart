@@ -14,13 +14,11 @@ class GetStoriesUsecase
   Future<Either<Failures, StoriesResponseEntity>> call({
     int? params,
     int? page,
-    int? location,
     int? size,
   }) async {
     return await storyRepository.getStories(
       page: page!,
       size: size!,
-      location: location!,
     );
   }
 }

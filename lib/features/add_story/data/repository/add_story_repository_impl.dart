@@ -20,7 +20,12 @@ class AddStoryRepositoryImpl implements AddStoryRepository {
       final List<int> bytes = await addStoryEntity.photo.readAsBytes();
 
       final response = await addStoryRemoteDatasource.addStory(
-          bytes, "photo", addStoryEntity.description);
+        bytes,
+        "photo",
+        addStoryEntity.description,
+        addStoryEntity.lat,
+        addStoryEntity.lon,
+      );
 
       return Right(response);
     } on RequestErrorException catch (e) {

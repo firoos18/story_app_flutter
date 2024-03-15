@@ -13,6 +13,8 @@ class AddStoryRemoteDatasource {
     List<int> bytes,
     String fileName,
     String description,
+    double? lat,
+    double? lon,
   ) async {
     final token = _prefs.getString("token");
 
@@ -32,6 +34,8 @@ class AddStoryRemoteDatasource {
 
     final Map<String, String> fields = {
       "description": description,
+      "lat": lat.toString(),
+      "lon": lon.toString(),
     };
     final Map<String, String> headers = {
       "Content-type": "multipart/form-data",
