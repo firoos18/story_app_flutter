@@ -32,11 +32,20 @@ class AddStoryRemoteDatasource {
       filename: fileName,
     );
 
-    final Map<String, String> fields = {
-      "description": description,
-      "lat": lat.toString(),
-      "lon": lon.toString(),
-    };
+    final Map<String, String> fields;
+
+    if (lat != null && lon != null) {
+      fields = {
+        "description": description,
+        "lat": lat.toString(),
+        "lon": lon.toString(),
+      };
+    } else {
+      fields = {
+        "description": description,
+      };
+    }
+
     final Map<String, String> headers = {
       "Content-type": "multipart/form-data",
     };

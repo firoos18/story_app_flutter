@@ -16,27 +16,64 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
   }
 
   final List<StoryEntity> _stories = [];
-  int _page = 1;
+  int? page = 1;
   final int _pageSize = 10;
 
   void onGetStories(StoryEvent event, Emitter<StoryState> emit) async {
-    final storiesData = await _getStoriesUsecase.storyRepository.getStories(
-      page: _page,
-      size: _pageSize,
-    );
+    if (event.isScreenOpened != null && !event.isScreenOpened!) {
+      if (page != null) {
+        final storiesData = await _getStoriesUsecase.storyRepository.getStories(
+          page: page!,
+          size: _pageSize,
+        );
 
-    if (storiesData.isRight && storiesData.right.listStory!.isNotEmpty) {
-      final stories = storiesData.right.listStory;
-      final noMoreData = stories!.length < _pageSize;
+        storiesData.fold(
+          (left) {
+            emit(StoryError(message: storiesData.left.message));
+          },
+          (right) {
+            final stories = storiesData.right.listStory;
+            final noMoreData = stories!.length < _pageSize;
 
-      _stories.addAll(stories);
-      _page++;
+            _stories.addAll(stories);
 
-      emit(StoriesLoaded(storiesList: _stories, noMoreData: noMoreData));
-    }
+            if (noMoreData) {
+              page = null;
+            } else {
+              page = page! + 1;
+            }
 
-    if (storiesData.isLeft) {
-      emit(StoryError(message: storiesData.left.message));
+            emit(StoriesLoaded(storiesList: List.from(_stories)));
+          },
+        );
+      }
+    } else {
+      _stories.clear();
+
+      final storiesData = await _getStoriesUsecase.storyRepository.getStories(
+        page: 1,
+        size: _pageSize,
+      );
+
+      storiesData.fold(
+        (left) {
+          emit(StoryError(message: storiesData.left.message));
+        },
+        (right) {
+          final stories = storiesData.right.listStory;
+          final noMoreData = stories!.length < _pageSize;
+
+          _stories.addAll(stories);
+
+          if (noMoreData) {
+            page = null;
+          } else {
+            page = page! + 1;
+          }
+
+          emit(StoriesLoaded(storiesList: List.from(_stories)));
+        },
+      );
     }
   }
 }

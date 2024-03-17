@@ -113,14 +113,14 @@ class _DetailScreenState extends State<DetailScreen> {
                         const SizedBox(height: 24),
                         SizedBox(
                           width: double.infinity,
-                          height:
-                              state.story!.lat != 0.0 && state.story!.lon != 0.0
-                                  ? 200
-                                  : 0,
+                          height: state.story!.lat != null &&
+                                  state.story!.lon != null
+                              ? 200
+                              : 0,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(24),
-                            child: state.story!.lat != 0.0 &&
-                                    state.story!.lon != 0.0
+                            child: state.story!.lat != null &&
+                                    state.story!.lon != null
                                 ? GoogleMap(
                                     initialCameraPosition: CameraPosition(
                                         target: latLng!, zoom: 16),

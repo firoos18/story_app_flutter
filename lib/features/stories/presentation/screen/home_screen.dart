@@ -20,7 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<StoryBloc>().add(GetStories());
+    _scrollController.addListener(onScroll);
+    context.read<StoryBloc>().add(const GetStories(isScreenOpened: true));
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   void onScroll() {
@@ -28,14 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final currentScroll = _scrollController.position.pixels;
 
     if (currentScroll >= maxScroll) {
-      context.read<StoryBloc>().add(GetStories());
+      context.read<StoryBloc>().add(const GetStories(isScreenOpened: false));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(onScroll);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Stories"),
@@ -86,13 +91,24 @@ class _HomeScreenState extends State<HomeScreen> {
             if (state is StoriesLoaded) {
               return ListView.builder(
                 controller: _scrollController,
-                itemCount: state.noMoreData!
-                    ? state.storiesList!.length
-                    : state.storiesList!.length + 1,
-                itemBuilder: (context, index) =>
-                    (index < state.storiesList!.length)
-                        ? StoryCard(story: state.storiesList![index])
-                        : const Center(child: CupertinoActivityIndicator()),
+                itemCount: state.storiesList!.length,
+                itemBuilder: (context, index) {
+                  final stories = state.storiesList!;
+
+                  if (stories.length != 1) {
+                    if (index == stories.length - 1 &&
+                        context.read<StoryBloc>().page != null) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: CupertinoActivityIndicator(),
+                        ),
+                      );
+                    }
+                  }
+
+                  return StoryCard(story: state.storiesList![index]);
+                },
               );
             }
 

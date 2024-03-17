@@ -22,7 +22,7 @@ class AddStoryScreen extends StatefulWidget {
 class _AddStoryScreenState extends State<AddStoryScreen> {
   final TextEditingController descriptionController = TextEditingController();
   File? photo;
-  late LatLng? location;
+  LatLng? location;
   String? myStreet;
 
   @override
