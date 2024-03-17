@@ -1,0 +1,20 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+      {
+        "name": "free",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main_free.dart",
+        "args": ["--flavor", "free", "--target", "lib/main_free.dart" ]
+      },
+      {
+        "name": "paid",
+        "request": "launch",
+        "type": "dart",
+        "program": "lib/main.dart",
+        "args": ["--flavor", "paid", "--target", "lib/main.dart" ]
+      }
+    ],
+    "compounds": []
+  }

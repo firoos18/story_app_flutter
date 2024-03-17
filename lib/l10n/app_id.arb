@@ -28,5 +28,6 @@
     "chooseFromMapTextButton" : "Pilih dari Peta",
     "addLocationButton" : "Tambahkan Lokasi",
     "mapPickerAppbarTitle" : "Pilih Lokasi",
-    "doneAction" : "Selesai"
+    "doneAction" : "Selesai",
+    "addLocationSnackbar" : "Fitur ini hanya tersedia di aplikasi berbayar"
 }

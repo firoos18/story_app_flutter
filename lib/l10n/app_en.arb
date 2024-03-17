@@ -28,5 +28,6 @@
     "chooseFromMapTextButton" : "Choose from Map",
     "addLocationButton" : "Add Location",
     "mapPickerAppbarTitle" : "Pick Location",
-    "doneAction" : "Done"
+    "doneAction" : "Done",
+    "addLocationSnackbar" : "This feature only available in paid application"
 }

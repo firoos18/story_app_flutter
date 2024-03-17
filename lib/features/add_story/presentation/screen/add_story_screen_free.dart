@@ -12,14 +12,14 @@ import 'package:story_app_flutter/features/add_story/presentation/bloc/location_
 import 'package:story_app_flutter/features/add_story/presentation/bloc/pick_image/pick_image_bloc.dart';
 import 'package:story_app_flutter/features/stories/presentation/bloc/story_bloc.dart';
 
-class AddStoryScreen extends StatefulWidget {
-  const AddStoryScreen({super.key});
+class AddStoryScreenFree extends StatefulWidget {
+  const AddStoryScreenFree({super.key});
 
   @override
-  State<AddStoryScreen> createState() => _AddStoryScreenState();
+  State<AddStoryScreenFree> createState() => _AddStoryScreenFreeState();
 }
 
-class _AddStoryScreenState extends State<AddStoryScreen> {
+class _AddStoryScreenFreeState extends State<AddStoryScreenFree> {
   final TextEditingController descriptionController = TextEditingController();
   File? photo;
   LatLng? location;
@@ -128,52 +128,11 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => Dialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!
-                                  .addLocationDialogTitle,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<LocationPickerBloc>()
-                                        .add(PickCurrentLocation());
-                                    context.pop();
-                                  },
-                                  child: Text(AppLocalizations.of(context)!
-                                      .currentLocationTextButton),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    context.pop();
-                                    context.goNamed('map picker');
-                                  },
-                                  child: Text(AppLocalizations.of(context)!
-                                      .chooseFromMapTextButton),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                          AppLocalizations.of(context)!.addLocationSnackbar),
                     ),
                   );
                 },
@@ -185,34 +144,8 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
-                    child: BlocBuilder<LocationPickerBloc, LocationPickerState>(
-                      builder: (context, state) {
-                        if (state is LocationPickerLoaded) {
-                          location = state.coordinates;
-
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Ionicons.pin,
-                                size: 18,
-                                color: Colors.redAccent,
-                              ),
-                              Text(state.address!),
-                            ],
-                          );
-                        }
-                        if (state is LocationPickerError) {
-                          return Text(state.message!);
-                        }
-                        if (state is LocationPickerLoading) {
-                          return const CupertinoActivityIndicator();
-                        }
-                        return Text(
-                          AppLocalizations.of(context)!.addLocationButton,
-                        );
-                      },
-                    ),
+                    child:
+                        Text(AppLocalizations.of(context)!.addLocationButton),
                   ),
                 ),
               ),
