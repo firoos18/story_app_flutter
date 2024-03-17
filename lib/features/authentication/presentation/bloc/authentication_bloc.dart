@@ -38,7 +38,7 @@ class AuthenticationBloc
     if (loginResponse != null) {
       loginResponse.fold(
         (left) => emit(AuthenticationFailed(message: left.message)),
-        (right) => emit(LoginSuccess(userToken: right.loginResult.token)),
+        (right) => emit(LoginSuccess(userToken: right.loginResult!.token)),
       );
     } else {
       emit(const AuthenticationFailed(message: "An Unknown Error Occured!"));

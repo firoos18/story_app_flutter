@@ -4,7 +4,7 @@ import 'package:either_dart/either.dart';
 import 'package:story_app_flutter/core/exceptions/exceptions.dart';
 import 'package:story_app_flutter/core/failures/failures.dart';
 import 'package:story_app_flutter/features/stories/data/datasource/story_remote_datasource.dart';
-import 'package:story_app_flutter/features/stories/data/model/stories_response_model.dart';
+import 'package:story_app_flutter/features/stories/domain/entity/stories_response_entity.dart';
 import 'package:story_app_flutter/features/stories/domain/repository/story_repository.dart';
 
 class StoryRepositoryImpl implements StoryRepository {
@@ -13,7 +13,7 @@ class StoryRepositoryImpl implements StoryRepository {
   const StoryRepositoryImpl(this._storyRemoteDatasource);
 
   @override
-  Future<Either<Failures, StoriesResponseModel>> getStories({
+  Future<Either<Failures, StoriesResponseEntity>> getStories({
     int? page,
     int? size,
   }) async {

@@ -18,7 +18,7 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.goNamed('details', pathParameters: {"id": story.id});
+        context.goNamed('details', pathParameters: {"id": story.id!});
       },
       child: Container(
         margin: const EdgeInsets.only(top: 16),
@@ -35,14 +35,14 @@ class StoryCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    story.name,
+                    story.name!,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    timeago.format(DateTime.parse(story.createdAt)),
+                    timeago.format(DateTime.parse(story.createdAt!)),
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w300,
@@ -56,7 +56,7 @@ class StoryCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 8, right: 8),
               child: Text(
-                story.description,
+                story.description!,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -67,7 +67,7 @@ class StoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: CachedNetworkImage(
-                imageUrl: story.photoUrl,
+                imageUrl: story.photoUrl!,
                 placeholder: (context, url) =>
                     const CupertinoActivityIndicator(),
                 errorWidget: (context, url, error) =>

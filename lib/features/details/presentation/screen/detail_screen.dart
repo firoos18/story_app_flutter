@@ -64,7 +64,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: CachedNetworkImage(
-                        imageUrl: state.story!.photoUrl,
+                        imageUrl: state.story!.photoUrl!,
                         placeholder: (context, url) => const Center(
                           child: CupertinoActivityIndicator(),
                         ),
@@ -83,7 +83,7 @@ class _DetailScreenState extends State<DetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              state.story!.name,
+                              state.story!.name!,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             ),
                             Text(
                               timeago.format(
-                                DateTime.parse(state.story!.createdAt),
+                                DateTime.parse(state.story!.createdAt!),
                               ),
                               style: const TextStyle(
                                 fontSize: 12,
@@ -103,7 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          state.story!.description,
+                          state.story!.description!,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,

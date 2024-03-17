@@ -1,21 +1,18 @@
-import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:story_app_flutter/features/authentication/domain/entity/login_result_entity.dart';
 
-class LoginResponseEntity extends Equatable {
-  final bool error;
-  final String message;
-  final LoginResultEntity loginResult;
+part 'login_response_entity.freezed.dart';
+part 'login_response_entity.g.dart';
 
-  const LoginResponseEntity({
-    required this.error,
-    required this.loginResult,
-    required this.message,
-  });
+@freezed
+class LoginResponseEntity with _$LoginResponseEntity {
+  const factory LoginResponseEntity({
+    bool? error,
+    LoginResultEntity? loginResult,
+    String? message,
+  }) = _LoginResponseEntity;
 
-  @override
-  List<Object?> get props => [
-        error,
-        message,
-        loginResult,
-      ];
+  factory LoginResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseEntityFromJson(json);
 }

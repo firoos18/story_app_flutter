@@ -25,9 +25,9 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
       size: _pageSize,
     );
 
-    if (storiesData.isRight && storiesData.right.listStory.isNotEmpty) {
+    if (storiesData.isRight && storiesData.right.listStory!.isNotEmpty) {
       final stories = storiesData.right.listStory;
-      final noMoreData = stories.length < _pageSize;
+      final noMoreData = stories!.length < _pageSize;
 
       _stories.addAll(stories);
       _page++;

@@ -5,8 +5,8 @@ import 'package:story_app_flutter/core/failures/failures.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/local/authentication_local_datasource.dart';
 import 'package:story_app_flutter/features/authentication/data/datasources/remote/authentication_api_service.dart';
 import 'package:story_app_flutter/features/authentication/data/model/login_model.dart';
-import 'package:story_app_flutter/features/authentication/data/model/login_response_model.dart';
 import 'package:story_app_flutter/features/authentication/data/model/register_model.dart';
+import 'package:story_app_flutter/features/authentication/domain/entity/login_response_entity.dart';
 import 'package:story_app_flutter/features/authentication/domain/entity/register_response_entity.dart';
 import 'package:story_app_flutter/features/authentication/domain/repository/authentication_repository.dart';
 
@@ -20,12 +20,12 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   );
 
   @override
-  Future<Either<Failures, LoginResponseModel>?> userLogin(
+  Future<Either<Failures, LoginResponseEntity>?> userLogin(
       LoginModel? loginModel) async {
     if (loginModel != null) {
       try {
         final result = await _authenticationApiService.userLogin(loginModel);
-        saveUserToken(result.loginResult.token);
+        saveUserToken(result.loginResult!.token);
         return Right(result);
       } on RequestErrorException catch (e) {
         return Left(RequestFailure(e.message));

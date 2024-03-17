@@ -1,17 +1,16 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:story_app_flutter/core/common/story_entity.dart';
 
-class StoriesResponseEntity extends Equatable {
-  final bool error;
-  final String message;
-  final List<StoryEntity> listStory;
+part 'stories_response_entity.freezed.dart';
+part 'stories_response_entity.g.dart';
 
-  const StoriesResponseEntity(this.error, this.message, this.listStory);
+@freezed
+class StoriesResponseEntity with _$StoriesResponseEntity {
+  const factory StoriesResponseEntity(
+      {bool? error,
+      String? message,
+      List<StoryEntity>? listStory}) = _StoriesResponseEntity;
 
-  @override
-  List<Object?> get props => [
-        error,
-        message,
-        listStory,
-      ];
+  factory StoriesResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$StoriesResponseEntityFromJson(json);
 }

@@ -1,32 +1,20 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class StoryEntity extends Equatable {
-  final String id;
-  final String name;
-  final String description;
-  final String photoUrl;
-  final String createdAt;
-  final double? lat;
-  final double? lon;
+part 'story_entity.freezed.dart';
+part 'story_entity.g.dart';
 
-  const StoryEntity(
-    this.id,
-    this.name,
-    this.description,
-    this.photoUrl,
-    this.createdAt,
-    this.lat,
-    this.lon,
-  );
+@freezed
+class StoryEntity with _$StoryEntity {
+  const factory StoryEntity({
+    String? id,
+    String? name,
+    String? description,
+    String? photoUrl,
+    String? createdAt,
+    double? lat,
+    double? lon,
+  }) = _StoryEntity;
 
-  @override
-  List<Object?> get props => [
-        id,
-        name,
-        description,
-        photoUrl,
-        createdAt,
-        lat,
-        lon,
-      ];
+  factory StoryEntity.fromJson(Map<String, dynamic> json) =>
+      _$StoryEntityFromJson(json);
 }

@@ -1,17 +1,15 @@
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class RegisterResponseEntity extends Equatable {
-  final bool error;
-  final String message;
+part 'register_response_entity.freezed.dart';
+part 'register_response_entity.g.dart';
 
-  const RegisterResponseEntity({
-    required this.error,
-    required this.message,
-  });
+@freezed
+class RegisterResponseEntity with _$RegisterResponseEntity {
+  const factory RegisterResponseEntity({
+    bool? error,
+    String? message,
+  }) = _RegisterResponseEntity;
 
-  @override
-  List<Object?> get props => [
-        error,
-        message,
-      ];
+  factory RegisterResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$RegisterResponseEntityFromJson(json);
 }
