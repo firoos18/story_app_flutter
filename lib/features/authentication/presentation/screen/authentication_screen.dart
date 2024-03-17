@@ -63,7 +63,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Container(
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 175),
                     width: double.infinity,
                     height: isLogin ? 450 : 550,
                     decoration: BoxDecoration(
