@@ -134,8 +134,7 @@ class __$$LoginResponseEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$LoginResponseEntityImpl
     with DiagnosticableTreeMixin
     implements _LoginResponseEntity {

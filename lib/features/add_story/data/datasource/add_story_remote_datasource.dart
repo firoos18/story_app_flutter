@@ -1,15 +1,15 @@
 import 'dart:typed_data';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:story_app_flutter/core/constants/constants.dart';
-import 'package:story_app_flutter/features/add_story/data/model/add_story_response_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:story_app_flutter/features/add_story/domain/entity/add_story_response_entity.dart';
 
 class AddStoryRemoteDatasource {
   final SharedPreferences _prefs;
 
   const AddStoryRemoteDatasource(this._prefs);
 
-  Future<AddStoryResponseModel> addStory(
+  Future<AddStoryResponseEntity> addStory(
     List<int> bytes,
     String fileName,
     String description,
@@ -61,7 +61,7 @@ class AddStoryRemoteDatasource {
     final String responseData = String.fromCharCodes(responseList);
 
     if (statusCode == 201) {
-      final AddStoryResponseModel response = AddStoryResponseModel.fromJson(
+      final AddStoryResponseEntity response = AddStoryResponseEntity.fromSource(
         responseData,
       );
       return response;

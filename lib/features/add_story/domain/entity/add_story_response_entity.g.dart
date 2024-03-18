@@ -1,26 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_response_entity.dart';
+part of 'add_story_response_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LoginResponseEntityImpl _$$LoginResponseEntityImplFromJson(
+_$AddStoryResponseEntityImpl _$$AddStoryResponseEntityImplFromJson(
         Map<String, dynamic> json) =>
-    _$LoginResponseEntityImpl(
+    _$AddStoryResponseEntityImpl(
       error: json['error'] as bool?,
-      loginResult: json['loginResult'] == null
-          ? null
-          : LoginResultEntity.fromJson(
-              json['loginResult'] as Map<String, dynamic>),
       message: json['message'] as String?,
     );
 
-Map<String, dynamic> _$$LoginResponseEntityImplToJson(
-        _$LoginResponseEntityImpl instance) =>
+Map<String, dynamic> _$$AddStoryResponseEntityImplToJson(
+        _$AddStoryResponseEntityImpl instance) =>
     <String, dynamic>{
       'error': instance.error,
-      'loginResult': instance.loginResult,
       'message': instance.message,
     };

@@ -1,3 +1,8 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'register_model.g.dart';
+
+@JsonSerializable()
 class RegisterModel {
   final String email;
   final String name;
@@ -9,9 +14,5 @@ class RegisterModel {
     required this.password,
   });
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
-        "password": password,
-      };
+  Map<String, dynamic> toJson() => _$RegisterModelToJson(this);
 }

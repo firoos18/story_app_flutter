@@ -1,14 +1,18 @@
-import 'package:equatable/equatable.dart';
+import 'dart:convert';
 
-class AddStoryResponseEntity extends Equatable {
-  final bool error;
-  final String message;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  const AddStoryResponseEntity(this.error, this.message);
+part 'add_story_response_entity.freezed.dart';
+part 'add_story_response_entity.g.dart';
 
-  @override
-  List<Object?> get props => [
-        error,
-        message,
-      ];
+@freezed
+class AddStoryResponseEntity with _$AddStoryResponseEntity {
+  const factory AddStoryResponseEntity({bool? error, String? message}) =
+      _AddStoryResponseEntity;
+
+  factory AddStoryResponseEntity.fromJson(Map<String, dynamic> json) =>
+      _$AddStoryResponseEntityFromJson(json);
+
+  factory AddStoryResponseEntity.fromSource(String source) =>
+      AddStoryResponseEntity.fromSource(jsonDecode(source));
 }
