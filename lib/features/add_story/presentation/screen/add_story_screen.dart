@@ -223,18 +223,22 @@ class _AddStoryScreenState extends State<AddStoryScreen> {
 
                   if (location != null) {
                     final storyData = AddStoryEntity(
-                      description,
-                      photo!,
-                      location!.latitude.toDouble(),
-                      location!.longitude.toDouble(),
+                      description: description,
+                      photo: photo!,
+                      lon: location!.latitude.toDouble(),
+                      lat: location!.longitude.toDouble(),
                     );
 
                     context
                         .read<AddStoryBloc>()
                         .add(PostStoryButtonTapped(addStoryEntity: storyData));
                   } else {
-                    final storyData =
-                        AddStoryEntity(description, photo!, null, null);
+                    final storyData = AddStoryEntity(
+                      description: description,
+                      photo: photo!,
+                      lat: null,
+                      lon: null,
+                    );
 
                     context
                         .read<AddStoryBloc>()

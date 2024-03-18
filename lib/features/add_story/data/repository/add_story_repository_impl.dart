@@ -17,12 +17,12 @@ class AddStoryRepositoryImpl implements AddStoryRepository {
   Future<Either<Failures, AddStoryResponseEntity>> postStory(
       AddStoryEntity addStoryEntity) async {
     try {
-      final List<int> bytes = await addStoryEntity.photo.readAsBytes();
+      final List<int> bytes = await addStoryEntity.photo!.readAsBytes();
 
       final response = await addStoryRemoteDatasource.addStory(
         bytes,
         "photo",
-        addStoryEntity.description,
+        addStoryEntity.description!,
         addStoryEntity.lat,
         addStoryEntity.lon,
       );

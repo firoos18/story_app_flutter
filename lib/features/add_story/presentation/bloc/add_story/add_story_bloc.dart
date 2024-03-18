@@ -23,7 +23,9 @@ class AddStoryBloc extends Bloc<AddStoryEvent, AddStoryState> {
 
       data.fold(
         (left) => emit(AddStoryError(message: left.message)),
-        (right) => emit(AddStorySuccess(message: right.message)),
+        (right) {
+          emit(AddStorySuccess(message: right.message));
+        },
       );
     } else {
       return null;

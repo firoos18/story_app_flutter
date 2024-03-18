@@ -156,18 +156,22 @@ class _AddStoryScreenFreeState extends State<AddStoryScreenFree> {
 
                   if (location != null) {
                     final storyData = AddStoryEntity(
-                      description,
-                      photo!,
-                      location!.latitude.toDouble(),
-                      location!.longitude.toDouble(),
+                      description: description,
+                      photo: photo,
+                      lat: location!.latitude.toDouble(),
+                      lon: location!.longitude.toDouble(),
                     );
 
                     context
                         .read<AddStoryBloc>()
                         .add(PostStoryButtonTapped(addStoryEntity: storyData));
                   } else {
-                    final storyData =
-                        AddStoryEntity(description, photo!, null, null);
+                    final storyData = AddStoryEntity(
+                      description: description,
+                      photo: photo!,
+                      lon: null,
+                      lat: null,
+                    );
 
                     context
                         .read<AddStoryBloc>()

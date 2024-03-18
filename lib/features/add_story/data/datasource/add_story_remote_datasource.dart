@@ -54,13 +54,15 @@ class AddStoryRemoteDatasource {
     request.fields.addAll(fields);
     request.headers.addAll(headers);
 
-    final http.StreamedResponse streamedResponse = await request.send();
+    final streamedResponse = await request.send();
     final int statusCode = streamedResponse.statusCode;
 
     final Uint8List responseList = await streamedResponse.stream.toBytes();
     final String responseData = String.fromCharCodes(responseList);
 
     if (statusCode == 201) {
+      print(responseData);
+
       final AddStoryResponseEntity response = AddStoryResponseEntity.fromSource(
         responseData,
       );

@@ -14,5 +14,5 @@ class AddStoryResponseEntity with _$AddStoryResponseEntity {
       _$AddStoryResponseEntityFromJson(json);
 
   factory AddStoryResponseEntity.fromSource(String source) =>
-      AddStoryResponseEntity.fromSource(jsonDecode(source));
+      AddStoryResponseEntity.fromJson(json.decode(source));
 }

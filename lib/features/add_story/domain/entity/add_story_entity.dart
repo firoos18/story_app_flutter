@@ -1,20 +1,14 @@
 import 'dart:io';
 
-import 'package:equatable/equatable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AddStoryEntity extends Equatable {
-  final String description;
-  final File photo;
-  final double? lat;
-  final double? lon;
+part 'add_story_entity.freezed.dart';
 
-  const AddStoryEntity(this.description, this.photo, this.lat, this.lon);
-
-  @override
-  List<Object?> get props => [
-        description,
-        photo,
-        lat,
-        lon,
-      ];
+@freezed
+class AddStoryEntity with _$AddStoryEntity {
+  const factory AddStoryEntity(
+      {String? description,
+      File? photo,
+      double? lat,
+      double? lon}) = _AddStoryEntity;
 }
